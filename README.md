@@ -21,7 +21,7 @@
 * Webpack
 * React
 
-### Макет проекта
+### Макет проекта в Фигме
 
 https://www.figma.com/file/bcSG08lEWhg065xP35iEqq/Diploma-(Copy)?node-id=932%3A3593
 
