@@ -1,0 +1,128 @@
+.about-me {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 110px 70px 100px;
+  box-sizing: border-box;
+}
+
+.about-me__container {
+  margin-top: 66px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.about-me__container-text {
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.about-me__photo {
+  width: 270px;
+  height: 327px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.about-me__container-list {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-self: end;
+  list-style: none;
+}
+
+.about-me__item {
+  margin: 0 20px 0 0;
+  padding: 0;
+}
+
+.about-me__link {
+  font-size: 14px;
+  line-height: 17px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  color: #000000;
+  justify-self: end;
+  text-decoration: unset;
+  transition: opacity linear .2s;
+}
+
+.about-me__item:last-of-type {
+  margin-right: 0;
+}
+
+.about-me__link:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  .about-me {
+    padding: 70px 14px;
+  }
+
+  .about-me__container {
+    max-width: 292px;
+    margin: 0 auto;
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  .about-me__container-text {
+    width: 100%;
+  }
+
+  .about-me__photo {
+    width: 100%;
+    height: 352px;
+    border-radius: 10px;
+    object-fit: cover;
+    align-self: center;
+  }
+
+  .about-me__container-list {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-self: end;
+    border: 1px solid green;
+  }
+
+  .about-me__item {
+    margin-right: 26px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 860px) {
+  .about-me {
+    padding: 90px 50px;
+  }
+
+  .about-me__container-text {
+    width: 364px;
+  }
+
+  .about-me__photo {
+    width: 255px;
+    height: 307px;
+  }
+}
+
+@media screen and (min-width: 861px) and (max-width: 940px) {
+  .about-me__container-text {
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 941px) and (max-width: 1060px) {
+  .about-me__container-text {
+    width: 500px;
+  }
+}
+

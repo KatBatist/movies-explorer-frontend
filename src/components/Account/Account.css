@@ -1,0 +1,30 @@
+.account {
+  padding: 8px 20px;
+  font-size: 14px;
+  line-height: 16px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  color: #000000;
+  text-decoration: none;
+  background-color:#F9F9F9;
+  border-radius: 20px;
+  text-align: center;
+  transition: opacity linear .2s;
+}
+
+.account_menu {
+  margin-top: 621px;
+  margin-bottom: 0px;
+}
+
+.account:hover{
+  opacity: .7;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 619px) {
+  .account_menu {
+    margin-top: 444px;
+    margin-bottom: 0px;
+  }
+}

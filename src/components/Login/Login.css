@@ -1,0 +1,14 @@
+.login {
+  width: 396px;;
+  margin: 0 auto;
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.login__container-logo {
+  margin-bottom: 40px;
+}
+
+.login__container {
+  margin-top: 40px;
+}

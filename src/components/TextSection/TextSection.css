@@ -1,0 +1,68 @@
+.text-section {
+  margin: 0px;
+  padding: 0px;
+  font-size: 14px;
+  line-height: 20px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+.text-section_techs {
+  max-width: 460px;
+  margin-top: 26px;
+  margin-bottom: 100px;
+  letter-spacing: -0.04em;
+  text-align: center;
+}
+
+.text-section_about-me {
+  width: 100%;
+  font-size: 14px;
+  line-height: 22px;
+  text-align: left;
+}
+
+@media screen and (max-width: 619px) {
+  .text-section_about-project {
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .text-section_techs {
+    max-width: 292px;
+    margin-top: 24px;
+    margin-bottom: 50px;
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+@media screen and (min-width: 620px) and (max-width: 768px) {
+  .text-section_about-project {
+    font-size: 12px;
+    line-height: 18px;
+  }
+
+  .text-section_techs {
+    max-width: 400px;
+    margin-top: 22px;
+    margin-bottom: 83px;
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .text-section_about-me {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 860px) {
+  .text-section_about-me {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}

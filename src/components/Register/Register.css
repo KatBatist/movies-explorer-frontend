@@ -1,0 +1,39 @@
+.register {
+  max-width: 396px;
+  margin: 0 auto;
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.register__container-logo {
+  margin-bottom: 40px;
+}
+
+.register__container {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 619px) {
+  .register{
+    max-width: 260px;
+    padding-top: 56px;
+    padding-bottom: 30px;
+  }
+
+  .register__container {
+    margin-top: 80px;
+  }
+
+  .register__container-logo {
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 620px) and (max-width: 933px) {
+  .register{
+    padding-top: 232px;
+    padding-bottom: 232px;
+  }
+}

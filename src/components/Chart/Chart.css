@@ -1,0 +1,84 @@
+.chart {
+  background: #FFFFFF;
+  display: flex;
+}
+
+.chart__item {
+  width: 20%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.chart__item_frontend {
+  width: 80%;
+}
+
+.chart__container {
+  min-height: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #2BE080;
+}
+
+.chart__container_frontend {
+  background: #F2F2F2;
+}
+
+.chart__title {
+  margin: 9px 0;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  color: #000000;
+  align-self: center;
+}
+
+.chart__text {
+  margin: 14px 0 0 0;
+  font-size: 14px;
+  line-height: 17px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  color: #A0A0A0;
+  align-self: center;
+}
+
+@media screen and (max-width: 619px) {
+  .chart__item {
+    width: 35%;
+  }
+
+  .chart__item_frontend {
+    width: 65%;
+  }
+
+  .chart__title {
+    margin: 11px 0;
+    font-size: 11px;
+    line-height: 13px;
+  }
+
+  .chart__text {
+    margin: 10px 0 0 0;
+    font-size: 11px;
+    line-height: 13px;
+    font-weight: 400;
+  }
+}
+
+@media screen and (min-width: 620px) and (max-width: 768px) {
+  .chart__item {
+    width: 21%;
+  }
+
+  .chart__item_frontend {
+    width: 79%;
+  }
+
+  .chart__text {
+    font-weight: 400;
+  }
+}
