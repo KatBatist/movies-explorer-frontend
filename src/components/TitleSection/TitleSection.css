@@ -1,0 +1,63 @@
+.title-section {
+  margin: 0;
+  padding: 0;
+  font-size: 50px;
+  line-height: 58px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: #000000;
+  text-align: center;
+}
+
+.title-section_promo {
+  max-width: 730px;
+}
+
+.title-section_techs {
+  max-width: 600px;
+}
+
+.title-section_about-me {
+  text-align: left;
+}
+
+@media screen and (max-width: 619px) {
+  .title-section_promo {
+    max-width: 292px;
+    font-size: 29px;
+    line-height: 37px;
+  }
+
+  .title-section_techs {
+    width: 292px;
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .title-section_about-me {
+    font-size: 30px;
+    line-height: 36px;
+  }
+}
+
+@media screen and (min-width: 620px) and (max-width: 768px) {
+  .title-section_promo {
+    max-width: 680px;
+    font-size: 40px;
+    line-height: 52px;
+  }
+
+  .title-section_techs {
+    width: 400px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 860px) {
+  .title-section_about-me {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
