@@ -1,39 +1,52 @@
 .register {
   max-width: 396px;
-  margin: 0 auto;
-  padding-top: 70px;
-  padding-bottom: 70px;
+  margin: 70px auto 70px;
+  display: flex;
+  flex-direction: column;
 }
 
 .register__container-logo {
   margin-bottom: 40px;
+  display: flex;
 }
 
 .register__container {
-  margin-top: 40px;
+  margin: 0;
+  padding: 40px 0 0;
   display: flex;
   flex-direction: column;
+}
+
+.register__container-button {
+  padding: 0;
+  margin-top: 104px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
 }
 
 @media screen and (max-width: 619px) {
   .register{
     max-width: 260px;
-    padding-top: 56px;
-    padding-bottom: 30px;
-  }
-
-  .register__container {
-    margin-top: 80px;
+    margin: 56px auto 30px;
   }
 
   .register__container-logo {
-    text-align: center;
+    margin-bottom: 50px;
+    align-self: center;
+  }
+
+  .register__container {
+    padding: 80px 0 0;
+  }
+
+  .register__container-button {
+    margin-top: 192px;
   }
 }
 
 @media screen and (min-width: 620px) and (max-width: 933px) {
   .register{
-    padding-top: 232px;
-    padding-bottom: 232px;
+    margin: 232px auto 232px;
   }
 }

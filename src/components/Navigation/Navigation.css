@@ -72,7 +72,6 @@
   align-self: end;
   border: unset;
   transition: opacity linear .2s;
-  border: 1px solid green;
 }
 
 .navigation__open-btn:hover {

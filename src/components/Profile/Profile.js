@@ -1,6 +1,7 @@
 import React from 'react';
 import useFormWithValidation from '../../utils/useFormValidation';
 import Form from '../Form/Form';
+import Error from '../Error/Error';
 
 function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
 
@@ -27,7 +28,7 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
     }
   }, [currentUser, resetForm])
 
-  const addText = (
+  const childrenButton = (
     <button className="profile__btn-signout" onClick={onSignOut}>Выйти из аккаунта</button>)
 
   const errorHandler = () => {
@@ -96,24 +97,24 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
           required={item.required}
         />
       </label>
-      <span className="form__input-error">
-        {item.name === "password" && isUserError
-          ? (userErrorText)
-          : (errors[item.name])
-        }
-      </span>
+      <Error
+        classNameError="error_left error_profile"
+        textError={errors[item.name]}
+      />
     </div>
   ));
 
   return (
     <div className="profile">
       <Form
-        title={`Привет, ${currentUser.name}!`} buttonText="Редактировать"
-        onSubmit={handleSubmit}
-        addText={addText}
-        alignHeader="center"
         form="profile"
         formIsValid={isValid}
+        title={`Привет, ${currentUser.name}!`}
+        onSubmit={handleSubmit}
+        containerButton="profile__container-button"
+        textButton="Редактировать"
+        childrenButton={childrenButton}
+        textError={isUserError && userErrorText}
       >
         <div className="profile__container">
           {list}

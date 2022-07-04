@@ -1,6 +1,17 @@
 import React from 'react';
+import Error from '../Error/Error';
 
-function Form({title, buttonText, onSubmit, children, addText, alignHeader, form, formIsValid}) {
+function Form({
+  form,
+  formIsValid,
+  title,
+  children,
+  onSubmit,
+  containerButton,
+  textButton,
+  childrenButton,
+  textError
+}) {
 
   return (
     <form
@@ -10,13 +21,19 @@ function Form({title, buttonText, onSubmit, children, addText, alignHeader, form
       <h2 className={`form__header form__header_${form}`}>{title}</h2>
       {children}
       {form !== "search" &&
-      (<><button
-        className={`form__submit form__submit_${form}`}
-        type="submit"
-        disabled={!formIsValid}>
-        {buttonText}
-      </button>
-      {addText}</>)}
+        (<div className={containerButton}>
+          <Error
+            textError={textError}
+          />
+          <button
+            className={`form__submit form__submit_${form}`}
+            type="submit"
+            disabled={!formIsValid}>
+            {textButton}
+          </button>
+           {childrenButton}
+        </div>)
+      }
     </form>
   );
 }

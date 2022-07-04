@@ -3,6 +3,7 @@ import useFormWithValidation from '../../utils/useFormValidation';
 import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
+import Error from '../Error/Error';
 
 function Login({ onAuthorization, authStatus} ) {
 
@@ -22,7 +23,7 @@ function Login({ onAuthorization, authStatus} ) {
     onAuthorization(values);
   };
 
-  const addText = (
+  const childrenButton = (
     <div className="form__message">Ещё не зарегистрированы?
       <Link className="form__link" to="/signup"> Регистрация</Link>
     </div> )
@@ -82,12 +83,10 @@ function Login({ onAuthorization, authStatus} ) {
           required={item.required}
         />
       </label>
-      <span className="form__input-error">
-        {item.name === "password" && isAuthError
-          ? (authErrorText)
-          : (errors[item.name])
-        }
-      </span>
+      <Error
+        classNameError="error_left"
+        textError={errors[item.name]}
+      />
     </div>
   ));
 
@@ -97,13 +96,16 @@ function Login({ onAuthorization, authStatus} ) {
         <Logo />
       </div>
       <Form
-        title="Рады видеть!" buttonText="Войти"
-        onSubmit={handleSubmit}
-        addText={addText}
         form="login"
         formIsValid={isValid}
+        title="Рады видеть!"
+        onSubmit={handleSubmit}
+        containerButton="login__container-button"
+        textButton="Войти"
+        childrenButton={childrenButton}
+        textError={isAuthError && authErrorText}
       >
-        <div className="register__container">
+        <div className="login__container">
           {list}
         </div>
       </Form>

@@ -3,6 +3,7 @@ import useFormWithValidation from '../../utils/useFormValidation';
 import { Link } from 'react-router-dom';
 import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
+import Error from '../Error/Error';
 
 function Register({onRegistration, regStatus}) {
 
@@ -22,7 +23,7 @@ function Register({onRegistration, regStatus}) {
     onRegistration(values);
   };
 
-  const addText = (
+  const childrenButton = (
     <div className="form__message">Уже зарегистрированы?
       <Link className="form__link" to="/signin"> Войти</Link>
     </div> )
@@ -101,12 +102,10 @@ function Register({onRegistration, regStatus}) {
         required={item.required}
       />
     </label>
-    <span className="form__input-error">
-      {item.name === "password" && isRegError
-        ? (regErrorText)
-        : (errors[item.name])
-      }
-    </span>
+      <Error
+        classNameError="error_left"
+        textError={errors[item.name]}
+      />
     </div>
   ));
 
@@ -116,10 +115,13 @@ function Register({onRegistration, regStatus}) {
         <Logo />
       </div>
       <Form
-        title="Добро пожаловать!" buttonText="Зарегистрироваться"
-        onSubmit={handleSubmit}
-        addText={addText}
         formIsValid={isValid}
+        title="Добро пожаловать!"
+        onSubmit={handleSubmit}
+        containerButton="register__container-button"
+        textButton="Зарегистрироваться"
+        childrenButton={childrenButton}
+        textError={isRegError && regErrorText}
       >
         <div className="register__container">
           {list}
@@ -130,3 +132,4 @@ function Register({onRegistration, regStatus}) {
 }
 
 export default Register;
+
