@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   list-style: none;
+  position: relative;
 }
 
 .navigation__list {
@@ -89,6 +90,10 @@
 
 @media screen and (max-width: 768px) {
   .navigation {
+    visibility: hidden;
+    width: 0;
+  }
+  .navigation__link {
     visibility: hidden;
     width: 0;
   }

@@ -17,12 +17,14 @@ function Form({
     <form
       className={form === "search" ? "form_search" : "form"}
       onSubmit={onSubmit}
+      noValidate
     >
       <h2 className={`form__header form__header_${form}`}>{title}</h2>
       {children}
       {form !== "search" &&
         (<div className={containerButton}>
           <Error
+            classNameError="error_status"
             textError={textError}
           />
           <button

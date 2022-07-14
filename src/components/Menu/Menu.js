@@ -39,7 +39,7 @@ function Menu({isOpen, onClose}) {
 
   return (
     <Popup
-      name="message"
+      name="menu"
       isOpen={isOpen}
       onClose={onClose}
     >

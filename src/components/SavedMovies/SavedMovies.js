@@ -1,27 +1,53 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import { filterMoviesAll } from '../../utils/utils';
 
-function SavedMovies({loggedIn, savedMoviesData, onDeleteMovie}) {
+function SavedMovies({ movies, onDelete }) {
 
-  const handleSubmit = (data) => {
+  const [searchInput, setSearchInput] = React.useState('');
+  const [searchCheckbox, setSearchCheckbox] = React.useState(false);
+  const [filteredMovies, setFilteredMovies] = React.useState([]);
+  const [isMoviesEmpty, setIsMoviesEmpty] = React.useState(false);
 
-  }
+  React.useEffect(() => {
+    setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+  }, [movies]);
 
-  let location = useLocation();
+  React.useEffect(() => {
+    setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+  }, [searchCheckbox]);
+
+  const handleChangeInput = (value) => {
+    setSearchInput(value);
+  };
+
+  const handleChangeCheckbox = (value) => {
+    setSearchCheckbox(value);
+  };
+
+  const handleSearch = () => {
+    setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+    setIsMoviesEmpty(true);
+  };
 
   return (
-    <main>
+    <>
       <SearchForm
-        onSubmit={handleSubmit}
+        defaultInput={searchInput}
+        defaultCheckbox={searchCheckbox}
+        onChangeInput={handleChangeInput}
+        onChangeCheckbox={handleChangeCheckbox}
+        onSearch={handleSearch}
       />
       <MoviesCardList
-        data={savedMoviesData}
-        pathname={location.pathname}
-        onDeleteMovie={onDeleteMovie}
+        movies={filteredMovies}
+        savedMovies={movies}
+        onDelete={onDelete}
+        savedForm={true}
+        isMoviesEmpty={isMoviesEmpty}
       />
-    </main>
+    </>
   )
 }
 

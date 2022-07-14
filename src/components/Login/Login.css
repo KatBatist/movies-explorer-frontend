@@ -19,7 +19,7 @@
 
 .login__container-button {
   padding: 0;
-  margin-top: 173px;
+  margin-top: 161px;
   display: flex;
   flex-direction: column;
   align-content: center;
@@ -41,7 +41,7 @@
   }
 
   .login__container-button {
-    margin-top: 261px;
+    margin-top: 249px;
   }
 }
 

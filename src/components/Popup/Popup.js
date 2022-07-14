@@ -1,7 +1,7 @@
 import React from 'react';
 import { useEffect } from "react";
 
-function Popup({name, isOpen, onClose, isImage, children}) {
+function Popup({name, isOpen, onClose, children}) {
   useEffect(() => {
     if (!isOpen) return;
     const closeByEscape = (e) => {
@@ -24,7 +24,7 @@ function Popup({name, isOpen, onClose, isImage, children}) {
       className= {isOpen ? `popup popup-${name} popup_opened` : `popup popup-${name}`}
       onClick={handleOverlay}
     >
-      <div className={isImage ? 'popup-card__container' : 'popup__container'}>
+      <div className={`popup__container popup__container-${name}`}>
         {children}
         <button
           className={`popup__close-btn popup-${name}-close`}

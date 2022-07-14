@@ -45,7 +45,7 @@ function Navigation({ loggedIn, onOpenMenu }) {
                 nameList="navigation__list"
                 typeList="link"
               />
-            <Account />
+              <Account />
             </div>
             <button className="navigation__open-btn" type="button" onClick={onOpenMenu}></button>
           </>)

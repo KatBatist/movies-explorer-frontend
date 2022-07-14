@@ -18,6 +18,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  position: relative;
 }
 
 .search__container-checkbox {
@@ -46,6 +47,10 @@
   outline: none;
 }
 
+input:-webkit-autofill {
+  transition: all 5000s ease-in-out;
+}
+
 .search__find {
   width: 34px;
   height: 34px;
@@ -64,6 +69,17 @@
 .search__submit:hover {
   opacity: .7;
   cursor: pointer;
+}
+
+.search__span {
+  position: absolute;
+  top: 78px;
+  left: 63px;
+  font-size: 10px;
+  line-height: 12px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  color: #EE3465;
 }
 
 @media screen and (max-width: 619px) {
@@ -102,6 +118,10 @@
 
   .search__submit {
     margin: 19px 19px 19px 46px;
+  }
+
+  .search__span {
+    left: 19px;
   }
 }
 

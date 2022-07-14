@@ -5,7 +5,7 @@ import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
 import Error from '../Error/Error';
 
-function Login({ onAuthorization, authStatus} ) {
+function Login({ onAuthorization, authStatus }) {
 
   const [isAuthError, setIsAuthError] = React.useState(false);
   const [authErrorText, setAuthErrorText] = React.useState(null);
@@ -32,14 +32,26 @@ function Login({ onAuthorization, authStatus} ) {
     if (authStatus) {
       switch (authStatus) {
         case 200:
-        setIsAuthError(false);
-        setAuthErrorText('');
-        resetForm();
-        break;
+          setIsAuthError(false);
+          setAuthErrorText('');
+          resetForm();
+          break;
+        case 400:
+          setIsAuthError(true);
+          setAuthErrorText("Неверно указана почта или пароль");
+          break;
+        case 401:
+          setIsAuthError(true);
+          setAuthErrorText("При авторизации произошла ошибка")
+          break;
+        case 500:
+          setIsAuthError(true);
+          setAuthErrorText("На сервере произошла ошибка");
+          break;
         default:
-        setIsAuthError(true);
-        setAuthErrorText("Неверно указана почта или пароль");
-        break;
+          setIsAuthError(true);
+          setAuthErrorText("При авторизации произошла ошибка");
+          break;
       };
     };
   }
@@ -76,8 +88,6 @@ function Login({ onAuthorization, authStatus} ) {
           id={item.id}
           placeholder={item.nameRU}
           name={item.name}
-          minLength={item.minLength}
-          maxLength={item.maxLength}
           value={values[item.name]  || ''}
           onChange={handleChange}
           required={item.required}

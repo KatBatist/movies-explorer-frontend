@@ -29,7 +29,7 @@ function Footer() {
   ];
 
   return (
-    <div className='footer'>
+    <footer className='footer'>
       <SubTitleSection
         text="Учебный проект Яндекс.Практикум х BeatFilm."
         section="footer"
@@ -41,7 +41,7 @@ function Footer() {
           nameList="footer__list"
         />
       </div>
-    </div>
+    </footer>
   )
 }
 

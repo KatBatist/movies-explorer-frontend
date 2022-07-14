@@ -5,7 +5,7 @@ import Form from '../Form/Form';
 import Logo from '../Logo/Logo';
 import Error from '../Error/Error';
 
-function Register({onRegistration, regStatus}) {
+function Register({ onRegistration, regStatus}) {
 
   const [isRegError, setIsRegError] = React.useState(false);
   const [regErrorText, setRegErrorText] = React.useState('');
@@ -46,7 +46,7 @@ function Register({onRegistration, regStatus}) {
           break;
         default:
           setIsRegError(true);
-          setRegErrorText("Что-то пошло не так...");
+          setRegErrorText("Переданы некорректные данные");
           break;
       };
     };
@@ -62,10 +62,9 @@ function Register({onRegistration, regStatus}) {
       id: "name",
       name: "name",
       type: "text",
-      minLength: "2",
-      maxLength: "30",
       nameRU: "Имя",
       required: true,
+      pattern: "^[a-zA-Zа-яёА-ЯЁ -]{2,30}$",
     },
     {
       key: "2",
@@ -87,21 +86,20 @@ function Register({onRegistration, regStatus}) {
 
   const list = inputList.map((item) => (
     <div className="form__container-item" key={item.key}>
-    <label className="form__label">{item.nameRU}
-      <input
-        key={item.key}
-        className={item.name === "email" ? "form__input form__input_color" : "form__input"}
-        type={item.type}
-        id={item.id}
-        placeholder={item.nameRU}
-        name={item.name}
-        minLength={item.minLength}
-        maxLength={item.maxLength}
-        value={values[item.name] || ''}
-        onChange={handleChange}
-        required={item.required}
-      />
-    </label>
+      <label className="form__label">{item.nameRU}
+        <input
+          key={item.key}
+          className={item.name === "email" ? "form__input form__input_color" : "form__input"}
+          type={item.type}
+          id={item.id}
+          placeholder={item.nameRU}
+          name={item.name}
+          pattern={item.pattern}
+          value={values[item.name] || ''}
+          onChange={handleChange}
+          required={item.required}
+        />
+      </label>
       <Error
         classNameError="error_left"
         textError={errors[item.name]}
@@ -127,9 +125,9 @@ function Register({onRegistration, regStatus}) {
           {list}
         </div>
       </Form>
+
     </div>
   )
 }
 
 export default Register;
-

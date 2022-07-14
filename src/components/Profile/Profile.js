@@ -1,12 +1,17 @@
 import React from 'react';
 import useFormWithValidation from '../../utils/useFormValidation';
+import { CurrentUserContext} from '../../contexts/CurrentUserContext';
 import Form from '../Form/Form';
 import Error from '../Error/Error';
 
-function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
+function Profile({ onUpdate, onSignOut, userStatus }) {
+
+  const currentUser = React.useContext(CurrentUserContext);
 
   const [isUserError, setIsUserError] = React.useState(false);
   const [userErrorText, setUserErrorText] = React.useState('');
+  const [formIsValid, setFormIsValid] = React.useState(false);
+  const [isEdit, setIsEdit] = React.useState(false);
 
   const {
     values,
@@ -18,8 +23,15 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    onUpdateCurrentUser(values)
+    onUpdate(values)
+    handleToggleEditableProfile();
     resetForm(currentUser);
+  };
+
+  const handleToggleEditableProfile = () => {
+    setIsEdit(!isEdit);
+    setIsUserError(false);
+    setUserErrorText('');
   };
 
   React.useEffect(() => {
@@ -27,6 +39,16 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
       resetForm(currentUser);
     }
   }, [currentUser, resetForm])
+
+  React.useEffect(() => {
+    setFormIsValid(isValid);
+  }, [isValid, values])
+
+  React.useEffect(() => {
+    if (currentUser.name === values.name && currentUser.email === values.email) {
+      setFormIsValid(false);
+    }
+  }, [currentUser, values])
 
   const childrenButton = (
     <button className="profile__btn-signout" onClick={onSignOut}>Выйти из аккаунта</button>)
@@ -37,19 +59,24 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
         case 200:
           setIsUserError(false);
           setUserErrorText('');
-          resetForm();
+          resetForm(currentUser);
           break;
         case 400:
+        case 404:
           setIsUserError(true);
           setUserErrorText("Переданы некорректные данные");
           break;
         case 409:
           setIsUserError(true);
-          setUserErrorText("Пользователь с таким email уже существует.");
+          setUserErrorText("Пользователь с таким email уже существует");
+          break;
+        case 500:
+          setIsUserError(true);
+          setUserErrorText("На сервере произошла ошибка");
           break;
         default:
           setIsUserError(true);
-          setUserErrorText("Что-то пошло не так...");
+          setUserErrorText("На сервере произошла ошибка");
           break;
       };
     };
@@ -65,10 +92,9 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
       id: "name",
       name: "name",
       type: "text",
-      minLength: "2",
-      maxLength: "30",
       nameRU: "Имя",
       required: true,
+      pattern: "^[a-zA-Zа-яёА-ЯЁ -]{2,30}$"
     },
     {
       key: "2",
@@ -90,8 +116,7 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
           id={item.id}
           placeholder={item.nameRU}
           name={item.name}
-          minLength={item.minLength}
-          maxLength={item.maxLength}
+          pattern={item.pattern}
           value={values[item.name] || ''}
           onChange={handleChange}
           required={item.required}
@@ -108,7 +133,7 @@ function Profile({onUpdateCurrentUser, onSignOut, userStatus, currentUser}) {
     <div className="profile">
       <Form
         form="profile"
-        formIsValid={isValid}
+        formIsValid={formIsValid}
         title={`Привет, ${currentUser.name}!`}
         onSubmit={handleSubmit}
         containerButton="profile__container-button"
