@@ -94,7 +94,6 @@ function Profile({ onUpdate, onSignOut, userStatus }) {
       type: "text",
       nameRU: "Имя",
       required: true,
-      pattern: "^[a-zA-Zа-яёА-ЯЁ -]{2,30}$"
     },
     {
       key: "2",

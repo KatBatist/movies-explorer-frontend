@@ -9,13 +9,16 @@ function SavedMovies({ movies, onDelete }) {
   const [searchCheckbox, setSearchCheckbox] = React.useState(false);
   const [filteredMovies, setFilteredMovies] = React.useState([]);
   const [isMoviesEmpty, setIsMoviesEmpty] = React.useState(false);
+  const [isLoadMovies, setIsLoadMovies] = React.useState(false);
 
   React.useEffect(() => {
-    setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+    setFilteredMovies(movies);
   }, [movies]);
 
   React.useEffect(() => {
-    setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+    if(isLoadMovies) {
+      setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+    }
   }, [searchCheckbox]);
 
   const handleChangeInput = (value) => {
@@ -27,6 +30,7 @@ function SavedMovies({ movies, onDelete }) {
   };
 
   const handleSearch = () => {
+    setIsLoadMovies(true);
     setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
     setIsMoviesEmpty(true);
   };

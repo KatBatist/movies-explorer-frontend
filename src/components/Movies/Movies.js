@@ -10,14 +10,17 @@ function Movies({ isLoading, movies, savedMovies, onSearch, onSave, onDelete }) 
   const [searchCheckbox, setSearchCheckbox] = React.useState(JSON.parse(localStorage.getItem('searchCheckbox')) === true);
   const [filteredMovies, setFilteredMovies] = React.useState([]);
   const [isMoviesEmpty, setIsMoviesEmpty] = React.useState(false);
+  const [isLoadMovies, setIsLoadMovies] = React.useState(false);
 
   React.useEffect(() => {
     setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
   }, [movies]);
 
   React.useEffect(() => {
-    localStorage.setItem('searchCheckbox', JSON.stringify(searchCheckbox));
-    setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+    if (localStorage.getItem('isLoadMovies')) {
+      localStorage.setItem('searchCheckbox', JSON.stringify(searchCheckbox));
+      setFilteredMovies(filterMoviesAll(movies, searchInput, searchCheckbox));
+    }
   }, [searchCheckbox]);
 
   const handleChangeInput = (value) => {

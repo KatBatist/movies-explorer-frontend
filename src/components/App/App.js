@@ -90,7 +90,6 @@ function App() {
         .then((res) => {
           setCurrentUser(res.data.data);
           setUserStatus(res.status);
-          history.goBack();
           handleOpenInfoTooltip();
           setTextInfoTooltip("Обновление профиля прошло успешно!")
           setIsErrorInfoTooltip(false);
@@ -113,6 +112,7 @@ function App() {
       .then((res) => {
         setMovies(res.data)
         localStorage.setItem('movies', JSON.stringify(res.data));
+        localStorage.setItem('isLoadMovies', 'true');
         setIsLoading(false);
       })
       .catch(() => {
@@ -189,26 +189,11 @@ function App() {
 
   React.useEffect(() => {
     if (loggedIn) {
-      handleSearchMovies();
+      if (localStorage.getItem('isLoadMovies')) {
+        handleSearchMovies();
+      }
     } else {
       setMovies([]);
-    }
-  }, [loggedIn]);
-
-  React.useEffect(() => {
-  const token = localStorage.getItem('jwt');
-    if (token) {
-      mainApi.getSavedMovies(token)
-      .then((res) => {
-        const array = res.data.data.map((item) => ({ ...item, id: item.movieId }));
-        setSavedMovies(array);
-      })
-      .catch(() => {
-        setSavedMovies([]);
-        handleOpenInfoTooltip();
-        setTextInfoTooltip("Что-то пошло не так...")
-        setIsErrorInfoTooltip(true);
-      });
     }
   }, [loggedIn]);
 
@@ -226,6 +211,26 @@ function App() {
     }
   }, []);
 
+  React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
+      if (token) {
+        mainApi.getSavedMovies(token)
+        .then((res) => {
+          let array = res.data.data.map((item) => ({ ...item, id: item.movieId }));
+          if(currentUser) {
+            array = array.filter((m) => m.owner === currentUser._id);
+          }
+          setSavedMovies(array);
+        })
+        .catch(() => {
+          setSavedMovies([]);
+          handleOpenInfoTooltip();
+          setTextInfoTooltip("Что-то пошло не так...")
+          setIsErrorInfoTooltip(true);
+        });
+      }
+    }, [loggedIn]);
+
   return (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
@@ -239,48 +244,44 @@ function App() {
           <Route exact path="/">
             <Main />
           </Route>
-          <Route path="/signup">
+          <ProtectedRoute path='/signup' redirectPath='/' redirect={loggedIn}>
             <Register
               onRegistration={handleRegistration}
               regStatus={regStatus}
             />
-          </Route>
-          <Route path="/signin">
+          </ProtectedRoute>
+          <ProtectedRoute path='/signin' redirectPath='/' redirect={loggedIn}>
             <Login
               onAuthorization={handleAuthorization}
               authStatus={authStatus}
             />
-          </Route>
-          <ProtectedRoute
-            path="/profile"
-            component={Profile}
-            loggedIn={loggedIn}
-            onUpdate={handleUpdateCurrenUser}
-            onSignOut={handleSignOut}
-            userStatus={userStatus}
-          />
-          <ProtectedRoute
-            path="/movies"
-            component={Movies}
-            loggedIn={loggedIn}
-            isLoading={isLoading}
-            movies={movies}
-            savedMovies={savedMovies}
-            onSearch={handleSearchMovies}
-            onSave={handleSaveMovie}
-            onDelete={handleDeleteMovie}
-          />
-          <ProtectedRoute
-            path="/saved-movies"
-            component={SavedMovies}
-            loggedIn={loggedIn}
-            isLoading={isLoading}
-            movies={savedMovies}
-            onDelete={handleDeleteMovie}
-          />
-          <Route path="*">
+          </ProtectedRoute>
+          <ProtectedRoute exact path={'/profile'} redirectPath='/' redirect={!loggedIn}>
+            <Profile
+              onUpdate={handleUpdateCurrenUser}
+              onSignOut={handleSignOut}
+              userStatus={userStatus}
+            />
+          </ProtectedRoute>
+          <ProtectedRoute exact path={'/movies'} redirectPath='/' redirect={!loggedIn}>
+            <Movies
+              isLoading={isLoading}
+              movies={movies}
+              savedMovies={savedMovies}
+              onSearch={handleSearchMovies}
+              onSave={handleSaveMovie}
+              onDelete={handleDeleteMovie}
+            />
+          </ProtectedRoute>
+          <ProtectedRoute exact path={'/saved-movies'} redirectPath='/' redirect={!loggedIn}>
+            <SavedMovies
+              movies={savedMovies}
+              onDelete={handleDeleteMovie}
+            />
+          </ProtectedRoute>
+          <ProtectedRoute path='*' redirectPath='/' redirect={!loggedIn}>
             <NotFound />
-          </Route>
+          </ProtectedRoute>
         </Switch>
         <Route exact path={['/', '/movies', '/saved-movies']}>
           <Footer />
