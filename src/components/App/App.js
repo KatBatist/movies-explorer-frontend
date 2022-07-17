@@ -47,28 +47,12 @@ function App() {
       })
   }
 
-  const handleCheckToken = () => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      mainApi.checkToken(token)
-      .then((res) => {
-        setAuthStatus(res.status);
-        setCurrentUser(res.data.data);
-        setLoggedIn(true);
-      })
-      .catch((err) => {
-        setAuthStatus(err);
-      })
-    }
-  }
-
   function handleAuthorization(data) {
     mainApi.authorization(data)
     .then((res) => {
       setAuthStatus(res.status);
       setLoggedIn(true);
       localStorage.setItem('jwt', res.data.token);
-      handleCheckToken();
       history.push('/movies');
     })
     .catch((err) => {
@@ -78,7 +62,7 @@ function App() {
 
   function handleSignOut (evt) {
     evt.preventDefault();
-    localStorage.clear()
+    localStorage.clear();
     setLoggedIn(false);
     history.push('/');
   };
@@ -89,6 +73,7 @@ function App() {
       mainApi.updateCurrentUserProfile(data, token)
         .then((res) => {
           setCurrentUser(res.data.data);
+          localStorage.setItem('user', JSON.stringify(res.data.data));
           setUserStatus(res.status);
           handleOpenInfoTooltip();
           setTextInfoTooltip("Обновление профиля прошло успешно!")
@@ -188,6 +173,46 @@ function App() {
   }
 
   React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      mainApi.checkToken(token)
+      .then((res) => {
+        setAuthStatus(res.status);
+        setCurrentUser(res.data.data);
+        localStorage.setItem('user', JSON.stringify(res.data.data));
+        setLoggedIn(true);
+      })
+      .catch((err) => {
+        setAuthStatus(err);
+        setLoggedIn(false);
+      })
+    } else {
+      setLoggedIn(false);
+      setCurrentUser({});
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('jwt');
+    if (token) {
+      mainApi.getSavedMovies(token)
+      .then((res) => {
+        let array = res.data.data.map((item) => ({ ...item, id: item.movieId }));
+        if(currentUser) {
+          array = array.filter((m) => m.owner === currentUser._id);
+          setSavedMovies(array);
+        }
+      })
+      .catch(() => {
+        setSavedMovies([]);
+        handleOpenInfoTooltip();
+        setTextInfoTooltip("Что-то пошло не так...")
+        setIsErrorInfoTooltip(true);
+      });
+    }
+  }, [loggedIn, currentUser]);
+
+  React.useEffect(() => {
     if (loggedIn) {
       if (localStorage.getItem('isLoadMovies')) {
         handleSearchMovies();
@@ -197,41 +222,7 @@ function App() {
     }
   }, [loggedIn]);
 
-  React.useEffect(() => {
-    const token = localStorage.getItem('jwt');
-    if (token) {
-      mainApi.checkToken(token)
-      .then((res) => {
-        setCurrentUser(res.data.data);
-        setLoggedIn(true);
-      })
-      .catch((err) => {
-        setLoggedIn(false);
-      })
-    }
-  }, []);
-
-  React.useEffect(() => {
-    const token = localStorage.getItem('jwt');
-      if (token) {
-        mainApi.getSavedMovies(token)
-        .then((res) => {
-          let array = res.data.data.map((item) => ({ ...item, id: item.movieId }));
-          if(currentUser) {
-            array = array.filter((m) => m.owner === currentUser._id);
-          }
-          setSavedMovies(array);
-        })
-        .catch(() => {
-          setSavedMovies([]);
-          handleOpenInfoTooltip();
-          setTextInfoTooltip("Что-то пошло не так...")
-          setIsErrorInfoTooltip(true);
-        });
-      }
-    }, [loggedIn]);
-
-  return (
+  return  (
     <div className="App">
       <CurrentUserContext.Provider value={currentUser}>
         <Route exact path={['/', '/movies', '/saved-movies', '/profile']}>
@@ -241,47 +232,58 @@ function App() {
           />
         </Route>
         <Switch>
-          <Route exact path="/">
+          <Route exact path='/'>
             <Main />
           </Route>
-          <ProtectedRoute path='/signup' redirectPath='/' redirect={loggedIn}>
-            <Register
-              onRegistration={handleRegistration}
-              regStatus={regStatus}
-            />
+          <ProtectedRoute
+            exact path='/signup'
+            component={Register}
+            onRegistration={handleRegistration}
+            regStatus={regStatus}
+            redirectAuth={true}
+          >
           </ProtectedRoute>
-          <ProtectedRoute path='/signin' redirectPath='/' redirect={loggedIn}>
-            <Login
-              onAuthorization={handleAuthorization}
-              authStatus={authStatus}
-            />
+          <ProtectedRoute
+            exact path='/signin'
+            component={Login}
+            onAuthorization={handleAuthorization}
+            authStatus={authStatus}
+            redirectAuth={true}
+          >
           </ProtectedRoute>
-          <ProtectedRoute exact path={'/profile'} redirectPath='/' redirect={!loggedIn}>
-            <Profile
-              onUpdate={handleUpdateCurrenUser}
-              onSignOut={handleSignOut}
-              userStatus={userStatus}
-            />
+          <ProtectedRoute
+            exact path='/movies'
+            component={Movies}
+            isLoading={isLoading}
+            movies={movies}
+            savedMovies={savedMovies}
+            onSearch={handleSearchMovies}
+            onSave={handleSaveMovie}
+            onDelete={handleDeleteMovie}
+            redirectAuth={false}
+          >
           </ProtectedRoute>
-          <ProtectedRoute exact path={'/movies'} redirectPath='/' redirect={!loggedIn}>
-            <Movies
-              isLoading={isLoading}
-              movies={movies}
-              savedMovies={savedMovies}
-              onSearch={handleSearchMovies}
-              onSave={handleSaveMovie}
-              onDelete={handleDeleteMovie}
-            />
+          <ProtectedRoute
+            exact path='/saved-movies'
+            component={SavedMovies}
+            savedMovies={savedMovies}
+            movies={savedMovies}
+            onDelete={handleDeleteMovie}
+            redirectAuth={false}
+          >
           </ProtectedRoute>
-          <ProtectedRoute exact path={'/saved-movies'} redirectPath='/' redirect={!loggedIn}>
-            <SavedMovies
-              movies={savedMovies}
-              onDelete={handleDeleteMovie}
-            />
+          <ProtectedRoute
+            exact path='/profile'
+            component={Profile}
+            onUpdate={handleUpdateCurrenUser}
+            onSignOut={handleSignOut}
+            userStatus={userStatus}
+            redirectAuth={false}
+          >
           </ProtectedRoute>
-          <ProtectedRoute path='*' redirectPath='/' redirect={!loggedIn}>
+          <Route path='/*'>
             <NotFound />
-          </ProtectedRoute>
+          </Route>
         </Switch>
         <Route exact path={['/', '/movies', '/saved-movies']}>
           <Footer />
@@ -304,6 +306,5 @@ function App() {
     </div>
   )
 }
-
 
 export default App;

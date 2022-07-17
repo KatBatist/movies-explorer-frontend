@@ -6,7 +6,10 @@ import Error from '../Error/Error';
 
 function Profile({ onUpdate, onSignOut, userStatus }) {
 
-  const currentUser = React.useContext(CurrentUserContext);
+  let currentUser = React.useContext(CurrentUserContext);
+  if (!currentUser) {
+    currentUser = JSON.parse(localStorage.getItem('user'));
+  }
 
   const [isUserError, setIsUserError] = React.useState(false);
   const [userErrorText, setUserErrorText] = React.useState('');
@@ -38,7 +41,7 @@ function Profile({ onUpdate, onSignOut, userStatus }) {
     if (currentUser) {
       resetForm(currentUser);
     }
-  }, [currentUser, resetForm])
+  }, [resetForm])
 
   React.useEffect(() => {
     setFormIsValid(isValid);
