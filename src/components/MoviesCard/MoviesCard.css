@@ -1,0 +1,114 @@
+.movies-card {
+  padding: 0;
+  margin: 0;
+  height: 271px;
+  box-shadow: 0px 4px 30px rgba(0, 0, 0, 0.08);
+}
+
+.movies-card__image {
+  width: 100%;
+  height: 203px;
+  object-fit: cover;
+}
+
+.movies-card__header {
+  padding: 14px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  background: #FDFDFD;
+}
+
+.movies-card__title {
+  max-width: 280px;
+  margin: 0 0 9px;
+  font-size: 15px;
+  line-height: 18px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 500;
+  color: #000000;
+  box-sizing: border-box;
+  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.movies-card__subtitle {
+  margin: 0;
+  font-size: 11px;
+  line-height: 13px;
+  font-family: 'Inter', Arial, sans-serif;
+  font-weight: 400;
+  color: #A0A0A0;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.movies-card__btn-favorites {
+  width: 30px;
+  height: 30px;
+  background: #F9F9F9;
+  border-radius: 36px;
+  border: unset;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+  transition: opacity linear .2s;
+}
+
+.movies-card__btn-favorites_active {
+  padding: 0;
+  background: none;
+}
+
+.movies-card__btn-favorites:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+.movies-card__btn-favorites-delete {
+  width: 30px;
+  height: 30px;
+  background: #F9F9F9;
+  border-radius: 36px;
+  border: unset;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.movies-card__btn-favorites-delete:hover {
+  opacity: .7;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 767px) {
+  .movies-card {
+    height: 236px;
+  }
+
+  .movies-card__image {
+    height: 168px;
+  }
+
+  .movies-card__title {
+    max-width: 210px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1279px) {
+  .movies-card {
+    height: 258px;
+  }
+
+  .movies-card__image {
+    height: 190px;
+  }
+
+  .movies-card__title {
+    max-width: 250px;
+  }
+}
